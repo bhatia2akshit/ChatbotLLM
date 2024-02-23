@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styling.css') }}">
+</head>
+<body>
+    <div id="container">
+        <div class="gradient-background"></div> <!-- Blue gradient background -->
+        <div id="chatbot-container">
+            <div id="left-column">
+                <h2>Saved Chats</h2>
+                <ul id="chat-list" class="chat-list"></ul>
+            </div>
+            <div id="right-column">
+                <h2>Ongoing Chat</h2>
+                <div id="chat-container" class="chat-container">
+                    <div id="chat-display" class="chat-display"></div>
+                </div>
+                <div id="input-container">
+                    <input type="text" id="user-input" class="chat-input" placeholder="Type your message...">
+                    <button onclick="sendQuery()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function displayUserChat(message) {
+            var chatDisplay = document.getElementById('chat-display');
+            var div = document.createElement('div');
+            div.textContent = message;
+            div.classList.add('user-message'); // Add a class for styling
+            chatDisplay.appendChild(div);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+
+            // Adjust message box width dynamically
+            adjustMessageBoxWidth();
+        }
+
+        function displayBotChat(message) {
+            var chatDisplay = document.getElementById('chat-display');
+            var div = document.createElement('div');
+            div.textContent = message;
+            div.classList.add('bot-message'); // Add a class for styling
+            chatDisplay.appendChild(div);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+
+            // Adjust message box width dynamically
+            adjustMessageBoxWidth();
+        }
+
+        function loadSavedChats() {
+            // Dummy data for saved chats
+            var savedChats = ["Chat 1", "Chat 2", "Chat 3"];
+
+            var chatList = document.getElementById('chat-list');
+            savedChats.forEach(function(chat, index) {
+                var li = document.createElement('li');
+                li.textContent = chat;
+                li.addEventListener('click', function() {
+                    displayUserChat(chat);
+                });
+                chatList.appendChild(li);
+            });
+        }
+
+        function adjustMessageBoxWidth() {
+            var chatDisplay = document.getElementById('chat-display');
+            var messages = chatDisplay.getElementsByClassName('user-message');
+            for (var i = 0; i < messages.length; i++) {
+                var message = messages[i];
+                var messageWidth = message.offsetWidth;
+                if (messageWidth > (chatDisplay.offsetWidth * 0.4)) {
+                    message.style.width = '100%';
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedChats();
+        });
+
+        // Function to send query to backend
+        function sendQuery() {
+            var userInput = document.getElementById('user-input').value;
+            // In a real application, you would use AJAX to send the query to the backend
+            // For this example, let's just display the user's input and a bot response
+            displayUserChat(userInput);
+            document.getElementById('user-input').value = ''; // Clear the input field
+
+            // Send the user input to the server
+            fetch('/query', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userInput }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayBotChat(data.response); // Display bot response
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
