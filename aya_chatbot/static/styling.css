@@ -1,0 +1,96 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative; /* Set position relative */
+}
+
+#chatbot-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch; /* Make columns stretch to container height */
+    width: 90%;
+    height: 80%;
+    margin: auto;
+    border: 1px solid rgba(0, 0, 255, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 255, 0.3);
+    position: relative; /* Set position relative */
+    z-index: 1; /* Ensure the container appears on top */
+    background-color: transparent; /* Make background transparent */
+}
+
+#left-column {
+    width: 25%;
+    overflow-y: auto;
+    height: 100%; /* Occupy full height of container */
+}
+
+#right-column {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid rgba(0, 0, 255, 0.2); /* Add border to create partition */
+    padding-left: 20px; /* Add padding to visually separate the content */
+    height: 100%; /* Occupy full height of container */
+}
+
+.chat-container {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.chat-display {
+    display: flex;
+    flex-direction: column;
+}
+
+#input-container {
+    display: flex;
+    flex-direction: row; /* Ensure input and button are in a row */
+    justify-content: space-between; /* Spread them apart */
+    align-items: flex-end; /* Align items to the bottom */
+    padding: 10px 0; /* Add padding to separate from the chat container */
+    width: 100%; /* Ensure input container spans the entire width */
+}
+
+.chat-input {
+    flex-grow: 1; /* Allow the input field to grow */
+    margin-right: 10px; /* Add some space between input field and button */
+}
+
+.user-message,
+.bot-message {
+    background-color: #d3d3d3; /* Light gray background */
+    border-radius: 20px; /* Rounded corners */
+    padding: 10px 15px; /* Padding inside the message box */
+    margin-bottom: 5px; /* Add some space between messages */
+    max-width: 60%; /* Set maximum width for the message box */
+    word-wrap: break-word; /* Allow long words to break and wrap */
+}
+
+.user-message {
+    align-self: flex-end; /* Align user messages to the right */
+}
+
+.bot-message {
+    align-self: flex-start; /* Align bot messages to the left */
+}
+
+.gradient-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    background: linear-gradient(to bottom, #87CEFA 20%, #FFFFFF 20%); /* Gradient background */
+    z-index: 0; /* Ensure the gradient is behind other content */
+}
